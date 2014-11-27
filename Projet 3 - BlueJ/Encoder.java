@@ -19,6 +19,6 @@
          * @pre -
          * @post La valeur renvoyee contient la configuration de cet encodeur
          */
-        public Configuration getconfiguration();
+        public Configuration getConfiguration();
     }
 
