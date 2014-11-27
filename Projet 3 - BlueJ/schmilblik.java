@@ -3,14 +3,14 @@ public class schmilblik{
         int compteur = 0;
         boolean isPaire = false;
         if(isLine){
-            for (int i = 1; i < 10; i++){
+            for (int i = 1; i < truck.getSize; i++){
                 if(tab[place][i]==1){
                     compteur ++;
                 }
             }
         }
         else{
-            for (int i = 1; i < 10; i++){
+            for (int i = 1; i < truck.getSize; i++){
                 if(tab[i][place]==1){
                     compteur ++;
                 }
