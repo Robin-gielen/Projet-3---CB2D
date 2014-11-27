@@ -16,9 +16,6 @@ public class schmilblik{
                 }
             }
         }  
-        if(compteur%2 ==0){
-            isPaire = true;
-        } 
-        return (isPaire);
+        return ((compteur%2) == 0);
     }
 }
