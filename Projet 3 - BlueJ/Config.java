@@ -18,49 +18,43 @@ public class Config implements Configuration
     }
     
     public Config (int size, int dataType, int compressionMode){
-    	
+        
         this.size = size;
         this.dataType = dataType;
         this.compressionMode = compressionMode;
     }
     
     public int getSize(){
-    	if (dixBitsConfig != null){
-    		String tempBit1 = dixBitsConfig.substring(0, 3);
-    		for (int i = 0; i < 8; i++){
-    			if (tab1[i].equals(tempBit1)){
-    				size = i;
-    				i = 8;
-    			}
-    		}
-    	}
+        if (dixBitsConfig != null){
+            size = index(tab1,0,3);
+        }
         return size;
     }
     
     public int getDataType(){
-    	if (dixBitsConfig != null){
-    		String tempBit2 = dixBitsConfig.substring(3, 7);
-    		for (int i = 0; i < 16; i++){
-    			if (tab2[i].equals(tempBit2)){
-    				dataType = i;
-    				i = 16;    				
-    			}
-    		}
-    	}
-    	return dataType;
+        if (dixBitsConfig != null){
+            dataType = index(tab2,3,7);
+        }
+        return dataType;
     }
     
     public int getCompressionMode(){
-    	if (dixBitsConfig != null){
-    		String tempBit3 = dixBitsConfig.substring(7, 10);
-    		for (int i = 0; i < 8; i++){
-    			if (tab1[i].equals(tempBit3)){
-    				compressionMode = i;
-    				i = 8;
-    			}
-    		}
+        if (dixBitsConfig != null){
+            compressionMode = index(tab1,7,10);
     	}
     	return compressionMode;
     }
     
+    public int index (String [] tab, int begin, int end){
+        int index = 100;     
+        String temp = dixBitsConfig.substring(begin, end);
+        int fin = tab.length;
+        for (int i = 0; i < fin; i++){
+            if (tab[i].equals(temp)){
+    			index = i;
+    			i = fin;
+    		}
+    	}
+    	return index;
+    }
 }
