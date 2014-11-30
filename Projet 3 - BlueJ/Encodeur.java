@@ -68,21 +68,21 @@ public class Encodeur implements Encoder
             }
         }    
 
-        // Generation des bytes de parite :
+        // Generation des bits de parite :
 
         // Paire = 0
         // Impaire = 1; 
 
         while (place < tableau.length) {
             // Ligne : 
-            if (isPaire(tableau, place, true)) { 
+            if (UsableMethodes.isPaire(tableau, place, true)) { 
                 tableau [place][0] = 0; 
             }
             else{
                 tableau [place][0] = 1; 
             }
             // Colonne : 
-            if (isPaire(tableau, place, false)) { 
+            if (UsableMethodes.isPaire(tableau, place, false)) { 
                 tableau [0][place] = 0; 
             }
             else{
@@ -92,11 +92,11 @@ public class Encodeur implements Encoder
             place++; 
         }
 
-        // Byte de parite (0;0) :
+        // Bit de parite (0;0) :
 
-        if (isPaire (tableau,indice, true) == isPaire (tableau, indice, false)) { 
+        if (UsableMethodes.isPaire (tableau,indice, true) == UsableMethodes.isPaire (tableau, indice, false)) { 
 
-            if (isPaire (tableau,indice, true)) {
+            if (UsableMethodes.isPaire (tableau,indice, true)) {
                 // Paire
                 tableau [0][0] = 1;
             }
@@ -106,36 +106,9 @@ public class Encodeur implements Encoder
             }
         }
         else {
-            System.out.println("Erreur : Les bytes de parite ne correspondent pas"); 
+            System.out.println("Erreur : Les bits de parite ne correspondent pas"); 
         }
         return tableau; 
-    }
-
-    /**
-     * @pre - 
-	 * @post -
-     */
-	public boolean isPaire(int [][] tableau, int place, boolean isLine){
-
-        int compteur = 0;
-        boolean isPaire = false;
-
-        if(isLine){
-            for (int i = 1; i < tableau.length; i++){
-                if(tableau[place][i] == 1){
-                    compteur ++;
-                }
-            }
-        }
-        else{
-            for (int i = 1; i < tableau.length; i++){
-                if(tableau[i][place] == 1){
-                    compteur ++;
-                }
-            }
-        }  
-
-        return ((compteur % 2) == 0);
     }
 
     /**
