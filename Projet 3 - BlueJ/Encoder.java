@@ -12,7 +12,7 @@
          * au message msg , encode en respectant la configuration de cet encodeur
          * @throw EncodingException au cas ou le message msg ne peut pas etre encode
          */
-        public int[][] encode (String msg);
+        public int[][] encode (String msg)throws EncodingException;
         
         /**
          * @pre -

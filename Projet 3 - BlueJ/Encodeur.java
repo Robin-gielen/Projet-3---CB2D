@@ -6,31 +6,28 @@ import barcode2d.*;
  * @author  Gielen Robin
  * @version 29/11/2014
  */
-public class Encodeur implements Encoder
-{
-    /**
-     * @pre - 
-	 * @post -
-     */
-    public int[][] encode (String msg)
-    {
+public class Encodeur implements Encoder{
+        /**
+         * @pre   msg != null
+         * @post  La valeur renvoyee contient une matrice de bits correspondant
+         *        au message msg , encode en respectant la configuration de cet encodeur
+         * @throw EncodingException au cas ou le message msg ne peut pas etre encode
+         */
+    public int[][] encode (String msg)throws EncodingException{
         StringBuffer chaineBinaire = new StringBuffer(); 
 
-        for (int i = 0; i < msg.length(); i++) {
-            if (msg.contains(" ")){
-                if (msg.charAt(i) == ' '){
-                    chaineBinaire.append("00100000"); 
-                }
-                else {
-                    chaineBinaire.append("0").append(Integer.toBinaryString(msg.charAt(i)));
-                }   
+        for (int i = 0; i < msg.length(); i++){
+            String temp = Integer.toBinaryString(msg.charAt(i));
+            if (temp.length()>7){
+                throw new EncodingException();
             }
-            else {
-                chaineBinaire.append("0").append(Integer.toBinaryString(msg.charAt(i)));
+            else{
+                chaineBinaire.append("0").append(temp);  
             }
         }
         return tableauBinaire(chaineBinaire.toString());
     }
+
 	
     /**
      * @pre - 
@@ -43,14 +40,6 @@ public class Encodeur implements Encoder
 
         int place = 1;
         int indice = 0; 
-
-		/*
-		System.out.println();
-        System.out.println("Dimension : " + tableau.length);
-        System.out.println("Chaine binaire :" + chaineBinaire);
-        System.out.println ("Taille du String : " + chaineBinaire.length()); 
-        System.out.println(); 
-		*/
 		
         // Generation du tableau :
 
@@ -110,28 +99,12 @@ public class Encodeur implements Encoder
         }
         return tableau; 
     }
-
-    /**
-     * @pre - 
-	 * @post -
-     */	
-    public static void afficher (int[][]tableau) {
-
-        for (int i = 0; i < tableau.length; i++) {
-            for (int j = 0; j < tableau.length; j++) {
-                System.out.print(tableau[j][i]);
-            }
-            System.out.println();
-        }
-
-    }
 	
     /**
      * @pre - 
 	 * @post -
      */	
-    public Configuration getConfiguration()
-    {
+    public Configuration getConfiguration(){
         
     }
 }
