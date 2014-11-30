@@ -152,27 +152,4 @@ public class Decodeur implements Decoder
         
     }
  
-    /* 
-    * @pre - image != null
-    * @post - 
-    */ 
-    public int[][] lecteur (String path)
-    {
-
-    }
-	
-	/* 
-    * @pre - Type du tableau : int
-	*		data != null
-    * @post - Affiche l'integralite du tableau
-    */
-	public void afficher (int[][]data) 
-	{
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data.length; j++) {
-                System.out.print(data[i][j]);
-            }
-            System.out.println();
-        }
-    }
 }
