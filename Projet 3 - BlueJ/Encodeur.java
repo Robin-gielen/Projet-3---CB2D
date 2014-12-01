@@ -29,6 +29,29 @@ public class Encodeur implements Encoder{
     }
 
     /**
+     * calcule la taille du tableau necessaire pour stocker les info (message plus configuration)
+     * 
+     */
+    public int tabSize(String finalChain){
+        int longueur = finalChain.length();
+        int size = 0;
+        if (longueur <= 961){ // 32*32-32-31 = 961 bit dispo
+            size = 0;
+        }
+        else if(longeur <= 3969){
+            size = 1;
+        }
+        else if(longeur <= 16129){
+            size = 2;
+        }
+        else{
+            size = 3;
+        }
+        
+        return size;
+    }
+    
+    /**
      *  Ajoute les bit de configuration
      * 
      */
@@ -46,8 +69,9 @@ public class Encodeur implements Encoder{
      * @pre - 
      * @post -
      */
-    public int[][] fillTab (String chaineBinaire){
-        int [][] tab = new int [32][32]; // besoin de changer avec l'appelle des dimention du tableau
+    public int[][] fillTab (String chaineBinaire,Configuration config){
+        int size =((config.getSize + 1) * 32);
+        int [][] tab = new int [size][size];
         int index = 0;
         
         for (int i = 1; i < tab.length; i++){
@@ -96,9 +120,10 @@ public class Encodeur implements Encoder{
     
     /**
      * @pre - 
-     * @post -
+     * @post renvoie la configuration du code-barre
      */ 
     public Configuration getConfiguration(){
-        
+        Config config = new Config (0,0,0);
+        return config;
     }
 }
