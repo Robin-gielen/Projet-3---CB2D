@@ -28,34 +28,39 @@ public class Encodeur implements Encoder{
         return tableauBinaire(chaineBinaire.toString());
     }
 
+    /**
+     *  Ajoute les bit de configuration
+     * 
+     */
+    public String configAddition(String Chaine,Configuration donnee){
+        String completeBit = 111111;
+        
+        String configuration = constantes.indexParam1[donnee.getSize] + constantes.indexParam2[donnee.getType] + constantes.indexParam1[donnee.GetCompression];
+        
+        String finalChain = configuration.append(chaine);
+        
+        return finalChain;
+    }
     
     /**
      * @pre - 
      * @post -
      */
-    public int[][] tableauBinaire (String chaineBinaire){
-
-        int [][]tableau = new int [32][32]; 
-        int indexe = 0;
-
-        int place = 1;
-        int indice = 0; 
+    public int[][] fillTab (String chaineBinaire){
+        int [][] tab = new int [32][32]; // besoin de changer avec l'appelle des dimention du tableau
+        int index = 0;
         
-        // Generation du tableau :
-
-        for (int i = 1; i < tableau.length; i++){
-            for (int j = 1; j < tableau.length; j++){
-
-                int c = Character.getNumericValue(chaineBinaire.charAt(indexe));
-                tableau[j][i] = c; 
-                indexe ++; 
-
+        for (int i = 1; i < tab.length; i++){
+            for (int j = 1; j < tab.length; j++){
+                tableau[j][i] = chaineBinaire.charAt(index); 
                 if (indexe >= chaineBinaire.length()){
                     j = tableau.length; 
                     i = tableau.length;
                 }
+                indexe ++; 
             }
         } 
+        return tab;
     }
     
     /**
@@ -63,7 +68,7 @@ public class Encodeur implements Encoder{
      * Cree les bit de correction
      */
     
-    public static int[][] correcteur (int[][] data){
+    public int[][] correcteur (int[][] data){
         // paire = 1
         //ligne
         for (int i = 1; i < data.length; i++){
