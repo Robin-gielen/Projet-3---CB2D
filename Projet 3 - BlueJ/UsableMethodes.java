@@ -20,14 +20,14 @@ public class UsableMethodes
 
         if(isLine){
             for (int i = 1; i < tableau.length; i++){
-                if(tableau[place][i] == 1){
+                if(tableau[i][place] == 1){
                     compteur ++;
                 }
             }
         }
         else{
             for (int i = 1; i < tableau.length; i++){
-                if(tableau[i][place] == 1){
+                if(tableau[place][i] == 1){
                     compteur ++;
                 }
             }
