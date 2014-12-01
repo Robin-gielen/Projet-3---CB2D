@@ -3,7 +3,7 @@ import barcode2d.*;
 /**
  * Cette classe a pour fonction de generer des codes barres a partir de texte
  * 
- * @author  Gielen Robin
+ * @author  Gielen Robin, Julien Banken, Jeremy Gossiaux
  * @version 29/11/2014
  */
 public class Encodeur implements Encoder{
@@ -28,19 +28,19 @@ public class Encodeur implements Encoder{
         return tableauBinaire(chaineBinaire.toString());
     }
 
-	
+    
     /**
      * @pre - 
-	 * @post -
+     * @post -
      */
-	public int[][] tableauBinaire (String chaineBinaire){
+    public int[][] tableauBinaire (String chaineBinaire){
 
         int [][]tableau = new int [32][32]; 
         int indexe = 0;
 
         int place = 1;
         int indice = 0; 
-		
+        
         // Generation du tableau :
 
         for (int i = 1; i < tableau.length; i++){
@@ -55,55 +55,44 @@ public class Encodeur implements Encoder{
                     i = tableau.length;
                 }
             }
-        }    
-
-        // Generation des bits de parite :
-
-        // Paire = 0
-        // Impaire = 1; 
-
-        while (place < tableau.length) {
-            // Ligne : 
-            if (UsableMethodes.isPaire(tableau, place, true)) { 
-                tableau [place][0] = 0; 
-            }
-            else{
-                tableau [place][0] = 1; 
-            }
-            // Colonne : 
-            if (UsableMethodes.isPaire(tableau, place, false)) { 
-                tableau [0][place] = 0; 
-            }
-            else{
-                tableau [0][place] = 1; 
-            }
-
-            place++; 
-        }
-
-        // Bit de parite (0;0) :
-
-        if (UsableMethodes.isPaire (tableau,indice, true) == UsableMethodes.isPaire (tableau, indice, false)) { 
-
-            if (UsableMethodes.isPaire (tableau,indice, true)) {
-                // Paire
-                tableau [0][0] = 1;
-            }
-            else {
-                // Impaire
-                tableau [0][0] = 1;
-            }
-        }
-        else {
-            System.out.println("Erreur : Les bits de parite ne correspondent pas"); 
-        }
-        return tableau; 
+        } 
     }
-	
+    
+    /**
+     * 
+     * Cree les bit de correction
+     */
+    
+    public static int[][] correcteur (int[][] data){
+        // paire = 1
+        //ligne
+        for (int i = 1; i < data.length; i++){
+            if (UsableMethodes.isPaire(data,i,true)){
+                data[0][i] = 1;
+            }
+        }
+        //colone
+        for (int i = 1; i < data.length; i++){
+            if (UsableMethodes.isPaire(data,i,false)){
+                data[i][0] = 1;
+            }
+        }
+        if (UsableMethodes.isPaire(data,0,true) == UsableMethodes.isPaire(data,0,false)){
+            if (UsableMethodes.isPaire(data,0,true)){
+                data[0][0] = 1;
+            }
+        }
+        else{
+            System.out.println("Erreur : Les bits de parite ne correspondent pas");
+        }
+        return data;
+    }
+    
+    
     /**
      * @pre - 
-	 * @post -
-     */	
+     * @post -
+     */ 
     public Configuration getConfiguration(){
         
     }
