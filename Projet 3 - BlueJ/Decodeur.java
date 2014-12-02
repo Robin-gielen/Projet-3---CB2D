@@ -1,4 +1,3 @@
-import barcode2d.BarCode2DReader;
 
 /**
  * Cette classe a pour but de lire un code-barre 2D et en extraire les informations 
@@ -7,7 +6,7 @@ import barcode2d.BarCode2DReader;
  * @author Gielen Robin 
  * @version 
  */
-public class Decodeur implements Decoder
+public class Decodeur
 {
     /* 
     * @pre - data != null
@@ -15,31 +14,31 @@ public class Decodeur implements Decoder
     *        data ne contient que des 0 et des 1
     * @post - La valeur renvoyee contient le decodage de la matrice de bits data
     *        decodee en respectant la configuration de ce decodeur
-	* A ajouter : 
-	*		Si la matrice contient une erreur, celle-ci est corrigee
+    * A ajouter : 
+    *       Si la matrice contient une erreur, celle-ci est corrigee
     * @throw DecodingException au cas ou la matrice data ne peut pas etre decodee
     */
-    public String decode(int[][] data)
+    public String decode(int[][] data,String endFirstLine)
     {
         StringBuffer msg = new StringBuffer(); 
         if (check (data)) {
-            for (int i = 1; i < data.length; i++) {
+            for (int i = 2; i < data.length; i++) {
                 for (int j = 1; j < data[i].length; j++) {
                     msg.append(data[i][j]); 
                 }
             }
         }
-        return convertir(msg.toString());
+        return convertir(endFirstLine + (msg.toString()));
     }
-	
+    
     /* 
     * @pre - data != null
     *        data est une matrice carree, de taille 32, 64, 128 ou 256
     *        data ne contient que des 0 et des 1
     * @post - Renvoi une chaine de caracteres qui correspond au code binaire 
     */
-	public String convertir (String msg) 
-	{
+    public String convertir (String msg) 
+    {
         StringBuffer texte = new StringBuffer(); 
         // On selectionne les bytes 8 par 8 : 
         for (int i = 0; i < msg.length()/8; i++) {
@@ -48,39 +47,15 @@ public class Decodeur implements Decoder
         }
         return texte.toString();
     }
-	
-    /* 
-    * @pre - data != null
-	*		 data est une matrice carree, de taille 32, 64, 128 ou 256
-    *        data ne contient que des 0 et des 1
-    * @post - La valeur renvoyee contient true si data ne contient pas
-     *        d’erreurs (la parite de la matrice de bits est valide),
-     *        et false sinon
-    */
-    public boolean check(int[][] data)
-    {
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
-                // On verifie si le tableau contient des 0 et des 1
-                if ((data[i][j] != 0) && (data[i][j] != 1)) {
-                    return false; 
-                }  
-                // On verifie si c'est une matrice carree et si ses dimensions sont egales à 32, 64, 128 ou 256  
-                if ((data.length != data[i].length) || (data[i].length != 32) && (data[i].length != 64) && (data[i].length != 128) && (data[i].length != 256)){
-                    return false; 
-                }
-            }
-        }
-        return true;
-    }
-	
+    
+    
     /* 
     * @pre - data != null
 	*		 data est une matrice carree, de taille 32, 64, 128 ou 256
     *        data ne contient que des 0 et des 1
     * @post - Detecte les erreurs : Affiche les lignes et les colonnes des anomalies
     */
-	public static void detection (int [][]data) {
+	public boolean check (int [][]data) {
 
         int compteurColonne = 0; 
         int compteurLigne = 0;
@@ -141,15 +116,38 @@ public class Decodeur implements Decoder
                 }  
             }
         }
+        return true;
     }
-	
+    
+    public int[][] correction (int line, int colone, int[][]data){
+        if (data[colone][line] == 0){
+            data[colone][line] = 1;
+        }
+        else{
+            data[colone][line] = 0;
+        }
+        return data;
+    }
+    
+    /**
+     * retourne les bit sur la ligne de fin de configuration
+     * 
+     */
+    public String configurationEnd(int[][] data,Config config){
+        StringBuffer bitBegin = new StringBuffer();       
+        
+        for (int i = 17; i < config.getSize(); i++){
+            bitBegin = bitBegin.append(data[i][1]);
+        }
+        return (bitBegin.toString());
+    }
+    
     /* 
     * @pre - 
     * @post - 
     */
-    public Configuration getConfiguration()
-    {
-        
+    public Config getConfiguration(){
+        Config config = new Config (0,0,0);
+        return config;
     }
- 
 }
