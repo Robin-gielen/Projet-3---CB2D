@@ -7,15 +7,12 @@ import barcode2d.*;
  */
 public class BarCode2D implements BarCode2DData{
     int[][] data;
-    int size;
-    int heigth;
-    public BarCode2D(int [][] data, int size){
+    public BarCode2D(int [][] data){
         this.data = data;
-        this.size = size;
     }
     
     public int getHeight(){
-        return data[0].length;
+        return Constantes.actualSize;
     }
     
     public boolean getValue(int line, int column){
@@ -23,6 +20,6 @@ public class BarCode2D implements BarCode2DData{
     }
     
     public int getWidth(){
-        return size;
+        return Constantes.actualSize;
     }
 }

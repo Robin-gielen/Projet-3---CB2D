@@ -97,7 +97,7 @@ public class CodeBareManager{
             Config config = new Config (((Constantes.actualSize / 32) - 1),type,compression);
             texte = Encodeur.configAddition(texte,config);
             try{
-                BarCode2D bare = new BarCode2D(Encodeur.fillTab(texte),Constantes.actualSize);
+                BarCode2D bare = new BarCode2D(Encodeur.fillTab(texte));
                 BarCode2DFrame fenetre = new BarCode2DFrame(bare,Constantes.messageToPrint);
                 BarCode2DWriter writer = new BarCode2DWriter(bare);
             

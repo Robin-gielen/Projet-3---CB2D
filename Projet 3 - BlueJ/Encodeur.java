@@ -66,14 +66,13 @@ public class Encodeur{
      * @post -
      */
     public static int[][] fillTab (String chaineBinaire){
-        int size =Constantes.actualSize;
+        int size = Constantes.actualSize;
         int [][] tab = new int [size][size];
         int index = 0;
-        
         for (int i = 1; i < tab.length; i++){
             for (int j = 1; j < tab.length; j++){
-                tab[i][j] = chaineBinaire.charAt(index); 
-                if (index >= chaineBinaire.length()){
+                tab[i][j] = Character.getNumericValue(chaineBinaire.charAt(index)); 
+                if (index >= chaineBinaire.length() - 1){
                     j = tab.length; 
                     i = tab.length;
                 }
