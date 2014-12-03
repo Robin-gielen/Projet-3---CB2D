@@ -21,8 +21,8 @@ public class Decodeur
     public static String decode(int[][] data) throws DecodingException{
         StringBuffer msg = new StringBuffer(); 
         if (check (data, Constantes.actualSize)){
-            for (int i = 2; i < data.length; i++) {
-                for (int j = 1; j < data[i].length; j++) {
+            for (int i = 2; i < Constantes.actualSize; i++) {
+                for (int j = 1; j < Constantes.actualSize; j++) {
                     msg.append(data[i][j]); 
                 }
             }
@@ -30,7 +30,7 @@ public class Decodeur
         else{
             throw new DecodingException();
         }
-        return convertir(configurationEnd(data) + ((msg.toString()).substring(0,msg.length()-1)));
+        return convertir(configurationEnd(data) + ((msg.toString().substring(0,msg.length()-1))));
     }
     
     /* 
@@ -39,8 +39,7 @@ public class Decodeur
     *        data ne contient que des 0 et des 1
     * @post - Renvoi une chaine de caracteres qui correspond au code binaire 
     */
-    public static String convertir (String msg) 
-    {
+    public static String convertir (String msg){
         StringBuffer texte = new StringBuffer(); 
         // On selectionne les bytes 8 par 8 : 
         for (int i = 0; i < msg.length()/8; i++) {
@@ -49,7 +48,6 @@ public class Decodeur
         }
         return texte.toString();
     }
-    
     
     /* 
     * @pre - data != null
@@ -125,11 +123,10 @@ public class Decodeur
         StringBuffer bitBegin = new StringBuffer();       
         
         for (int i = 17; i < Constantes.actualSize; i++){
-            bitBegin = bitBegin.append(data[i][1]);
+            bitBegin = bitBegin.append(data[1][i]);
         }
         return (bitBegin.toString());
     }
-    
     
     /* 
     * @pre - 

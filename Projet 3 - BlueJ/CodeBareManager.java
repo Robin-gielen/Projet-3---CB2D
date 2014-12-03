@@ -34,7 +34,7 @@ public class CodeBareManager{
             BarCode2DReader read = new BarCode2DReader();
             
             try{
-                read.loadBarCode2D(Constantes.pathToImageFile,256,256);
+                read.loadBarCode2D(Constantes.pathToImageFile,32,32);
             }
             catch(IOException e){
                 System.out.println (" Erreur : " + e.getMessage()); 

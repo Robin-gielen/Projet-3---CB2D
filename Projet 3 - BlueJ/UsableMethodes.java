@@ -12,9 +12,9 @@ public class UsableMethodes
     /**
      * Methode qui check si la ligne a un nombre de 1 pair ou impair
      * @pre - 
-	 * @post -
+     * @post -
      */
-	public static boolean isPaire(int [][] tableau, int place, boolean isLine){
+    public static boolean isPaire(int [][] tableau, int place, boolean isLine){
 
         int compteur = 0;
         boolean isPaire = false;
@@ -44,7 +44,7 @@ public class UsableMethodes
     public static String configurationBits(BarCode2DData bar){
         StringBuffer configuration = new StringBuffer(); 
         for (int i = 1; i < 11; i++){
-            if (bar.getValue(2,i)){
+            if (bar.getValue(1,i)){
                 configuration.append("1");
             }
             else{
