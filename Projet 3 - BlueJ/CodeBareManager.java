@@ -3,12 +3,13 @@ import barcode2d.*;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import javax.imageio.*;
 
 /**
  * 
  * 
- * @author Gielen Robin 
- * @version 29/11
+ * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
+ * @version : 2/12/2014
  */
 public class CodeBareManager{
     /**
@@ -19,22 +20,39 @@ public class CodeBareManager{
         System.out.println("Veuillez choisir votre mode : "); 
         System.out.println("\t 1) Lire un code-barre"); 
         System.out.println("\t 2) Generer un code-barre");
-
-        Constantes.choixModeGeneral = UsableMethodes.value();
-
+        boolean reponse = false;
+        while (!reponse){
+            Constantes.choixModeGeneral = UsableMethodes.value();
+            if(Constantes.choixModeGeneral <=2 && Constantes.choixModeGeneral !=0){
+                reponse = true;
+            }
+            else {
+                System.out.println("Veuillez entrer une réponse valide");
+            }
+        }
+        reponse = false;
+        
         // Lire un code 2D :
         if (Constantes.choixModeGeneral == 1){
-
-            // Initialisation du chemin d'acces : 
-            String path; 
+            String path; // Initialisation du chemin d'acces : 
+            int width = 0;
+            int height = 0;
             System.out.println ("Veuillez specifier le chemin d'acces de l'image : "); 
 
             Constantes.pathToImageFile = UsableMethodes.message();
-            
             BarCode2DReader read = new BarCode2DReader();
             
             try{
-                read.loadBarCode2D(Constantes.pathToImageFile,32,32);
+                Image img = ImageIO.read(new File(Constantes.pathToImageFile));
+                width = img.getWidth(null);
+                height = img.getHeight(null);
+            }
+            catch(Exception e){
+                System.out.println (" Erreur : " + e.getMessage()); 
+            }
+            
+            try{
+                read.loadBarCode2D(Constantes.pathToImageFile,width ,height);
             }
             catch(IOException e){
                 System.out.println (" Erreur : " + e.getMessage()); 
@@ -87,12 +105,33 @@ public class CodeBareManager{
             System.out.println("\t 1) ASCII long");
             System.out.println("\t 2) URL"); 
             System.out.println("\t 3) Kanji");
-            int type = UsableMethodes.value();
+            
+            int type = 0; 
+            while (!reponse){
+                type = UsableMethodes.value();
+                if(type <=3){
+                    reponse = true;
+                }
+                else {
+                    System.out.println("Veuillez entrer une réponse valide");
+                }
+            }
+            reponse = false;
             
             System.out.println("Veuillez choisir si les information doivent être compressee");
             System.out.println("\t 0) Pas de compression"); 
             System.out.println("\t 1) Compression");
-            int compression = UsableMethodes.value();
+
+            int compression = 0;
+            while (!reponse){
+                compression = UsableMethodes.value();
+                if(compression <=3){
+                    reponse = true;
+                }
+                else {
+                    System.out.println("Veuillez entrer une réponse valide");
+                }
+            }
             
             Config config = new Config (((Constantes.actualSize / 32) - 1),type,compression);
             texte = Encodeur.configAddition(texte,config);

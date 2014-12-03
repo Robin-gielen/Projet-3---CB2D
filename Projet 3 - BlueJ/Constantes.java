@@ -1,9 +1,9 @@
 
 /**
- * Cette classe aura pour but de contenir toutes les constantes globales du programme
+ * Cette classe a pour but de contenir toutes les constantes globales du programme
  * 
- * @author  
- * @version 
+ * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
+ * @version : 2/12/2014
  */
 public class Constantes
 {
@@ -14,9 +14,9 @@ public class Constantes
     public static String messageToPrint; // Va stocker le texte que l'utilisateur
     public static String pathToImageFile; // Chemin vers le fichier image
     
-    public static int actualSize;
-    public static int actualType;
-    public static int actualCompression;
+    public static int actualSize; // Stocke la taille de la matrice de bit/code barre
+    public static int actualType; // Stocke le parametre du type de donnee du code barre
+    public static int actualCompression; // Stocke le parametre du type de compression du code barre
     
     
     public static String [] indexParam1 = {"000","001","010","011","100","101","110","111"}; // Tableau reprenant les correspondances entre les successions de bits et les parametres pour la taille et le mode de compression 

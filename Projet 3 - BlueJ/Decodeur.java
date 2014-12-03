@@ -3,12 +3,12 @@
  * Cette classe a pour but de lire un code-barre 2D et en extraire les informations 
  * (texte, taille, type de compression)
  * 
- * @author Gielen Robin 
- * @version 
+ * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
+ * @version : 2/12/2014
  */
 public class Decodeur
 {
-    /* 
+    /**
     * @pre - data != null
     *        data est une matrice carree, de taille 32, 64, 128 ou 256
     *        data ne contient que des 0 et des 1
@@ -33,7 +33,7 @@ public class Decodeur
         return convertir(configurationEnd(data) + ((msg.toString().substring(0,msg.length()-1))));
     }
     
-    /* 
+    /** 
     * @pre - data != null
     *        data est une matrice carree, de taille 32, 64, 128 ou 256
     *        data ne contient que des 0 et des 1
@@ -49,7 +49,7 @@ public class Decodeur
         return texte.toString();
     }
     
-    /* 
+    /** 
     * @pre - data != null
     *        data est une matrice carree, de taille 32, 64, 128 ou 256
     *        data ne contient que des 0 et des 1
@@ -69,7 +69,6 @@ public class Decodeur
                 bit = 1;
             }
             if  (bit != data[i][0]){
-                
                 compteurErreurLine ++;
                 if (compteurErreurLine < 0){
                     erreurLine = i;
@@ -106,6 +105,10 @@ public class Decodeur
         return isValide;
     }
     
+    /**
+     * 
+     * 
+     */
     public static void correction (int line, int colone, int[][]data){
         if (data[colone][line] == 0){
             data[colone][line] = 1;
@@ -128,7 +131,7 @@ public class Decodeur
         return (bitBegin.toString());
     }
     
-    /* 
+    /**
     * @pre - 
     * @post - 
     */

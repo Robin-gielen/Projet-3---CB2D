@@ -1,9 +1,9 @@
 import java.lang.IndexOutOfBoundsException;
 /**
- * Cette classe a pour fonction de generer des codes barres a partir de texte
+ * description
  * 
- * @author  Gielen Robin, Julien Banken, Jeremy Gossiaux
- * @version 2/12/2014
+ * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
+ * @version : 1/12/2014
  */
 public class Encodeur{
         /**
@@ -15,12 +15,16 @@ public class Encodeur{
         StringBuffer chaineBinaire = new StringBuffer(); 
 
         for (int i = 0; i < msg.length(); i++){
-            String temp = Integer.toBinaryString(msg.charAt(i));
-            if (temp.length()>7){
+            char caractere = msg.charAt(i);
+            String bitChaine = Integer.toBinaryString(caractere);
+            if (bitChaine.length()>7){
                 throw new EncodingException();
             }
+            if (caractere == ' '){
+                chaineBinaire.append("00100000");
+            }
             else{
-                chaineBinaire.append("0").append(temp);  
+                chaineBinaire.append("0").append(bitChaine);  
             }
         }
         return chaineBinaire.toString();
@@ -52,7 +56,7 @@ public class Encodeur{
     }
     
     /**
-     *  Ajoute les bit de configuration
+     *  Ajoute les bits de configuration
      * 
      */
     public static String configAddition(String chaine,Config donnee){

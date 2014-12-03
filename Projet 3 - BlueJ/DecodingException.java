@@ -2,11 +2,11 @@
 /**
  * Write a description of class DecodingException here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux   
+ * @version : 27/11/2014
  */
 public class DecodingException extends Exception{
   public DecodingException(){
-    System.out.println("Peut pas decoder");
+    System.out.println("Le code barre ne peut pas etre decode!");
   }  
 }

@@ -3,19 +3,19 @@ import barcode2d.*;
 /**
  * 
  * 
- * @author  
- * @version 
+ * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
+ * @version : 1/12/2014 
  */
 public class UsableMethodes
 {
     
     /**
-     * Methode qui check si la ligne a un nombre de 1 pair ou impair
+     * Methode qui verifie si la ligne ou la colonne a un nombre de 1 pair ou impair
+     * 
      * @pre - 
      * @post -
      */
     public static boolean isPaire(int [][] tableau, int place, boolean isLine){
-
         int compteur = 0;
         boolean isPaire = false;
 
@@ -38,13 +38,14 @@ public class UsableMethodes
     }
     
     /**
-     * renvoie les bit de configuration
+     * methode qui renvoie les bits de configuration
+     * 
      * 
      */
-    public static String configurationBits(BarCode2DData bar){
+    public static String configurationBits(BarCode2DData barCode){
         StringBuffer configuration = new StringBuffer(); 
         for (int i = 1; i < 11; i++){
-            if (bar.getValue(1,i)){
+            if (barCode.getValue(1,i)){
                 configuration.append("1");
             }
             else{
@@ -55,14 +56,14 @@ public class UsableMethodes
     }
     
     /**
-     * crée le tableau a utilisé
+     * Methode qui genere la matrice de bits
      * 
      */
-    public static int[][] usableTab (BarCode2DData bar, int size){
+    public static int[][] usableTab (BarCode2DData barCode, int size){
         int [][] tab = new int [size][size];
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                if(bar.getValue(i,j)){
+                if(barCode.getValue(i,j)){
                     tab[i][j] = 1;
                 }
             }
@@ -71,7 +72,7 @@ public class UsableMethodes
     }
     
     /**
-     * renvoie un int
+     * Methode qui demande a l'utilisateur de renvoyer un int
      * 
      */
     public static int value (){
@@ -87,7 +88,7 @@ public class UsableMethodes
     }
     
     /**
-     * renvoie un string
+     * Methode qui demande a l'utilisateur de renvoyer un String
      * 
      */
     public static String message(){

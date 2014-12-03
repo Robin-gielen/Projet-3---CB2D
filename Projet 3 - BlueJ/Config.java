@@ -1,5 +1,8 @@
-
-
+/**
+ * 
+ * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
+ * @version : 30/11/2014
+ */
 public class Config{
     int size;
     int dataType;
@@ -14,6 +17,10 @@ public class Config{
         this.dixBitsConfig = dixBitsConfig;
     }
     
+    /**
+     * 
+     * 
+     */
     public Config (int size, int dataType, int compressionMode){
         
         this.size = size;
@@ -21,6 +28,10 @@ public class Config{
         this.compressionMode = compressionMode;
     }
     
+    /**
+     * 
+     * 
+     */
     public int getSize(){
         if (dixBitsConfig != null){
             size = index(Constantes.indexParam1,0,3);
@@ -28,6 +39,10 @@ public class Config{
         return size;
     }
     
+    /**
+     * 
+     * 
+     */
     public int getDataType(){
         if (dixBitsConfig != null){
             dataType = index(Constantes.indexParam2,3,7);
@@ -35,6 +50,10 @@ public class Config{
         return dataType;
     }
     
+    /**
+     * 
+     * 
+     */
     public int getCompressionMode(){
         if (dixBitsConfig != null){
             compressionMode = index(Constantes.indexParam1,7,10);
@@ -42,14 +61,18 @@ public class Config{
         return compressionMode;
     }
     
+    /**
+     * 
+     * 
+     */
     public int index (String [] tab, int begin, int end){
         int index = 100;     
         String temp = dixBitsConfig.substring(begin, end);
-        int fin = tab.length;
-        for (int i = 0; i < fin; i++){
+        int endOfTab = tab.length;
+        for (int i = 0; i < endOfTab; i++){
             if (tab[i].equals(temp)){
                 index = i;
-                i = fin;
+                i = endOfTab;
             }
         }
         return index;
