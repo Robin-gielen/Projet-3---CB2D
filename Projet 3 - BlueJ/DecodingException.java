@@ -1,6 +1,6 @@
 
 /**
- * Cette Classe 
+ * Cette classe renvoie un message en cas de DecodingException
  * 
  * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux   
  * @version : 27/11/2014

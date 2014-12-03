@@ -74,17 +74,39 @@ public class CodeBareManager{
         }
         // Generer un code 2D :
         else if (Constantes.choixModeGeneral == 2){
-
-            System.out.println("Veuillez entrer votre texte : ");
-            Constantes.messageToPrint = UsableMethodes.message();
-            
+            System.out.println("Voulez-vous ecrire votre texte ou qu'il soit lu dans un fichier?");
+            System.out.println("\t 0) Ecriture du texte"); 
+            System.out.println("\t 1) Lecture du fichier a la racine du code");
             String texte = "";
-            try{
-                texte = Encodeur.encode(Constantes.messageToPrint);
+            int choix = 0;
+            
+            while (!reponse){
+                choix = UsableMethodes.value();
+                if(choix <= 1){
+                    reponse = true;
+                }
+                else {
+                    System.out.println("Veuillez entrer une réponse valide");
+                }
             }
-            catch(Exception e){
-                System.out.println(" Erreur : " + e.getMessage()); 
+            reponse = false;
+
+            
+            if(choix == 0){
+                System.out.println("Veuillez entrer votre texte : ");
+                Constantes.messageToPrint = UsableMethodes.message();
+                try{
+                    texte = Encodeur.encode(Constantes.messageToPrint);
+                }
+                catch(Exception e){
+                    System.out.println(" Erreur : " + e.getMessage()); 
+                }
             }
+            else{
+                System.out.println("Veuillez entrer le nom de votre fichier");
+                texte = UsableMethodes.texteFichier(UsableMethodes.message());
+            }
+            
             Encodeur.tabSize(texte);
             
             System.out.println("Veuillez entrer le numero du type de format que vous voulez utiliser");
@@ -96,7 +118,7 @@ public class CodeBareManager{
             int type = 0; 
             while (!reponse){
                 type = UsableMethodes.value();
-                if(type <=3){
+                if(type <= 3){
                     reponse = true;
                 }
                 else {

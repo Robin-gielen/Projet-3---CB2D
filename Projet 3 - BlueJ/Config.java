@@ -1,5 +1,5 @@
 /**
- * Cette classe a pour but de cree un objet Config qui renvoie la taille, le type d'écriture et la compression du code barre.
+ * Cette classe a pour but de cree un objet Config qui renvoie la taille, le type d'ecriture et la compression du code barre.
  * 
  * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
  * @version : 30/11/2014
@@ -18,7 +18,7 @@ public class Config{
     }
     
     /**
-     * Ce constructeur prend en argument la taille, le type de donnee et le mode de compression qui sont tires du code-barre en train d etre cree.
+     * Ce constructeur prend en argument la taille, le type de donnee et le mode de compression qui sont tire du code-barre en train d etre cree.
      */
     public Config (int size, int dataType, int compressionMode){
         this.size = size;
@@ -37,7 +37,7 @@ public class Config{
     }
     
     /**
-     * Cette methode renvoie le type d'écriture du code barre. 
+     * Cette methode renvoie le type d'ecriture du code barre. 
      */
     public int getDataType(){
         if (dixBitsConfig != null){
@@ -58,6 +58,9 @@ public class Config{
     
     /**
      * Cette methode renvoie les parametres du code barre (taille, type, compression).
+     * 
+     * @pre : tab != null, begin <= 9, end <=10
+     * @post : renvoie le parametre de l'information demandee
      */
     public int index (String [] tab, int begin, int end){
         int index = 100;     
