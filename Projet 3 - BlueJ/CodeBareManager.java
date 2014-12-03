@@ -1,11 +1,7 @@
 import java.util.Scanner;
-import barcode2d.*;
-// Le copier-coller : 
-import java.awt.datatransfer.*;
+import barcode2d.*; 
 import java.awt.*;
 import java.io.*;
-
-// Le lien : 
 import java.net.*;
 
 
@@ -98,8 +94,31 @@ public class CodeBareManager
             catch(Exception e){
                 System.out.println(" Erreur : " + e.getMessage()); 
             }
+            
+            String s = "";
+            try{
+                s = Encodeur.encode(Constantes.messageToPrint);
+            }
+            catch(Exception e){
+                System.out.println(" Erreur : " + e.getMessage()); 
+            }
+            
+            Encodeur.tabSize(s);
+            Config config = new Config (((Constantes.actualSize / 32) - 1),0,0);
+            String u = Encodeur.configAddition(s,config);
+            int[][] tab = Encodeur.fillTab(u);
+            BarCode2D bare = new BarCode2D(tab,Constantes.actualSize);
+            BarCode2DFrame fenetre = new BarCode2DFrame(bare,Constantes.messageToPrint);
+            BarCode2DWriter writer = new BarCode2DWriter(bare);
+            
+            try{
+                writer.drawBarCode2D("e",bare.getWidth(),bare.getHeight());
+            }
+            catch(Exception e){
+                System.out.println(" Erreur : " + e.getMessage()); 
+            }
 
-            //afficher(encode(Constantes.messageToPrint)); 
+
         }
     }
 

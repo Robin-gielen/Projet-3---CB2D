@@ -11,7 +11,7 @@ public class Encodeur{
          * @post  
          * @throw EncodingException au cas ou le message msg ne peut pas etre encode
          */
-    public String encode (String msg)throws EncodingException{
+    public static String encode (String msg)throws EncodingException{
         StringBuffer chaineBinaire = new StringBuffer(); 
 
         for (int i = 0; i < msg.length(); i++){
@@ -30,7 +30,7 @@ public class Encodeur{
      * calcule la taille du tableau necessaire pour stocker les info (message plus configuration)
      * 
      */
-    public int tabSize(String finalChain)throws IndexOutOfBoundsException{
+    public static void tabSize(String finalChain)throws IndexOutOfBoundsException{
         int longueur = (finalChain.length()) + 16;
         int size = 0;
         if (longueur <= 960){ // 32*32-32-31 = 961 bit dispo
@@ -48,14 +48,14 @@ public class Encodeur{
         else{
             throw new IndexOutOfBoundsException();
         }
-        return size;
+        Constantes.actualSize = ((size + 1) *32);
     }
     
     /**
      *  Ajoute les bit de configuration
      * 
      */
-    public String configAddition(String chaine,Config donnee){
+    public static String configAddition(String chaine,Config donnee){
         String completeBit = "111111";
 
         return (Constantes.indexParam1[donnee.getSize()] + Constantes.indexParam2[donnee.getDataType()] + Constantes.indexParam1[donnee.getCompressionMode()]) + (completeBit + (chaine));
@@ -65,8 +65,8 @@ public class Encodeur{
      * @pre - 
      * @post -
      */
-    public int[][] fillTab (String chaineBinaire,Config config){
-        int size =((config.getSize() + 1) * 32);
+    public static int[][] fillTab (String chaineBinaire){
+        int size =Constantes.actualSize;
         int [][] tab = new int [size][size];
         int index = 0;
         
@@ -80,6 +80,7 @@ public class Encodeur{
                 index ++; 
             }
         } 
+        correcteur(tab);
         return tab;
     }
     
@@ -88,7 +89,7 @@ public class Encodeur{
      * Cree les bit de correction
      */
     
-    public int[][] correcteur (int[][] data){
+    public static void correcteur (int[][] data){
         // paire = 1
         //ligne
         for (int i = 1; i < data.length; i++){
@@ -106,7 +107,6 @@ public class Encodeur{
         if (UsableMethodes.isPaire(data,0,true)){
             data[0][0] = 1;
         }
-        return data;
     }
     
     /**
