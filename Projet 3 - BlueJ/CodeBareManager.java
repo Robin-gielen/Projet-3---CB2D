@@ -95,18 +95,18 @@ public class CodeBareManager{
             if(choix == 0){
                 System.out.println("Veuillez entrer votre texte : ");
                 Constantes.messageToPrint = UsableMethodes.message();
-                try{
-                    texte = Encodeur.encode(Constantes.messageToPrint);
-                }
-                catch(Exception e){
-                    System.out.println(" Erreur : " + e.getMessage()); 
-                }
+
             }
             else{
                 System.out.println("Veuillez entrer le nom de votre fichier");
-                texte = UsableMethodes.texteFichier(UsableMethodes.message());
+                Constantes.messageToPrint = UsableMethodes.texteFichier(UsableMethodes.message());
             }
-            
+            try{
+                texte = Encodeur.encode(Constantes.messageToPrint);
+            }
+            catch(Exception e){
+                System.out.println(" Erreur : " + e.getMessage()); 
+            }
             Encodeur.tabSize(texte);
             
             System.out.println("Veuillez entrer le numero du type de format que vous voulez utiliser");
@@ -141,7 +141,6 @@ public class CodeBareManager{
                     System.out.println("Veuillez entrer une reponse valide");
                 }
             }
-            
             Config config = new Config (((Constantes.actualSize / 32) - 1),type,compression);
             texte = Encodeur.configAddition(texte,config);
             try{
