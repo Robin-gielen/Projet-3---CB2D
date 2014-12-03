@@ -86,7 +86,7 @@ public class CodeBareManager{
                     reponse = true;
                 }
                 else {
-                    System.out.println("Veuillez entrer une réponse valide");
+                    System.out.println("Veuillez entrer une reponse valide");
                 }
             }
             reponse = false;
@@ -127,7 +127,7 @@ public class CodeBareManager{
             }
             reponse = false;
             
-            System.out.println("Veuillez choisir si les information doivent être compressee");
+            System.out.println("Veuillez choisir si les information doivent etre compressee");
             System.out.println("\t 0) Pas de compression"); 
             System.out.println("\t 1) Compression");
 
@@ -138,7 +138,7 @@ public class CodeBareManager{
                     reponse = true;
                 }
                 else {
-                    System.out.println("Veuillez entrer une réponse valide");
+                    System.out.println("Veuillez entrer une reponse valide");
                 }
             }
             

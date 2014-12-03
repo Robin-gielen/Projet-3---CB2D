@@ -27,7 +27,7 @@ public class Config{
     }
     
     /**
-     * Cette methode renvoie la taille de la matrice de bit.
+     * Cette methode renvoie la taille de la matrice de bits.
      */
     public int getSize(){
         if (dixBitsConfig != null){
