@@ -1,6 +1,6 @@
 import barcode2d.*;
 /**
- * Write a description of class BaraCode2D here.
+ * Cette classe cree un objet BarCode2DData
  * 
  * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux   
  * @version : 29/11/2014

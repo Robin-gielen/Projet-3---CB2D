@@ -2,11 +2,10 @@ import java.util.Scanner;
 import barcode2d.*; 
 import java.awt.*;
 import java.io.*;
-import java.net.*;
 import javax.imageio.*;
 
 /**
- * 
+ * Cett
  * 
  * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
  * @version : 2/12/2014
@@ -70,20 +69,8 @@ public class CodeBareManager{
             catch(DecodingException e){
                 System.out.println (" Erreur : " + e.getMessage()); 
             }
-            
-            if(Constantes.actualType == 2){
-                URI uri = URI.create(texte);
-                try{
-                    Desktop.getDesktop().browse(uri);
-                }
-                catch(Exception e){
-                    System.out.println (" Erreur : " + e.getMessage()); 
-                }
-            }
-            else{
-                System.out.println(texte);
-            }
-            
+            // Affiche le texte contenu dans le code barre.
+            System.out.println(texte);
         }
         // Generer un code 2D :
         else if (Constantes.choixModeGeneral == 2){

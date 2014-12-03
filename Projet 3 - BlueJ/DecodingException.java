@@ -1,6 +1,6 @@
 
 /**
- * Write a description of class DecodingException here.
+ * Cette Classe 
  * 
  * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux   
  * @version : 27/11/2014
