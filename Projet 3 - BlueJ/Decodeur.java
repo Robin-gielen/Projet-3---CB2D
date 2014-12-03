@@ -30,7 +30,7 @@ public class Decodeur
         else{
             throw new DecodingException();
         }
-        return convertir(configurationEnd(data) + (msg.toString()));
+        return convertir(configurationEnd(data) + ((msg.toString()).substring(0,msg.length()-1)));
     }
     
     /* 

@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import barcode2d.*;
 /**
  * 
@@ -67,5 +68,37 @@ public class UsableMethodes
             }
         }
         return tab;
+    }
+    
+    /**
+     * renvoie un int
+     * 
+     */
+    public static int value (){
+        int nombre = 0;
+        try {
+            Scanner sc = new Scanner(System.in); 
+            nombre = sc.nextInt();
+        }
+        catch (Exception e) {
+            System.out.println (" Erreur : " + e.getMessage()); 
+        }
+        return nombre;
+    }
+    
+    /**
+     * renvoie un string
+     * 
+     */
+    public static String message(){
+        String message = "";
+        try {
+            Scanner sc = new Scanner(System.in); 
+            message= sc.nextLine();
+        }
+        catch (Exception e) {
+            System.out.println (" Erreur : " + e.getMessage()); 
+        }
+        return message;
     }
 }
