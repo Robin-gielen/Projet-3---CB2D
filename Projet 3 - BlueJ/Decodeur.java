@@ -18,17 +18,19 @@ public class Decodeur
     *       Si la matrice contient une erreur, celle-ci est corrigee
     * @throw DecodingException au cas ou la matrice data ne peut pas etre decodee
     */
-    public String decode(int[][] data,String endFirstLine)
-    {
+    public static String decode(int[][] data) throws DecodingException{
         StringBuffer msg = new StringBuffer(); 
-        if (check (data)) {
+        if (check (data, Constantes.actualSize)){
             for (int i = 2; i < data.length; i++) {
                 for (int j = 1; j < data[i].length; j++) {
                     msg.append(data[i][j]); 
                 }
             }
         }
-        return convertir(endFirstLine + (msg.toString()));
+        else{
+            throw new DecodingException();
+        }
+        return convertir(configurationEnd(data) + (msg.toString()));
     }
     
     /* 
@@ -37,7 +39,7 @@ public class Decodeur
     *        data ne contient que des 0 et des 1
     * @post - Renvoi une chaine de caracteres qui correspond au code binaire 
     */
-    public String convertir (String msg) 
+    public static String convertir (String msg) 
     {
         StringBuffer texte = new StringBuffer(); 
         // On selectionne les bytes 8 par 8 : 
@@ -51,103 +53,90 @@ public class Decodeur
     
     /* 
     * @pre - data != null
-	*		 data est une matrice carree, de taille 32, 64, 128 ou 256
+    *        data est une matrice carree, de taille 32, 64, 128 ou 256
     *        data ne contient que des 0 et des 1
     * @post - Detecte les erreurs : Affiche les lignes et les colonnes des anomalies
     */
-	public boolean check (int [][]data) {
-
-        int compteurColonne = 0; 
-        int compteurLigne = 0;
-        int indicePariteColonne;
-        int indicePariteLigne;
+    public static boolean check (int [][]data,int size){
+        int compteurErreurLine = 0;
+        int compteurErreurColumn = 0;
+        int erreurLine = 0;
+        int erreurColumn = 0;
+        boolean isValide = true;
+        int bit = 0;
         
-        // i = colonne
-        // j = ligne
-
-        // Les lignes de parite horizontale :
-        for (int i = 1; i < data.length; i ++){
-            // On calcul le nombre de 1 (colonne)
-            for (int j = 1; j < data[i].length; j++){
-                if(data[j][i] == 1){
-                    compteurColonne ++;
+        //check les ligne
+        for (int i =0; i < size; i++){
+            if (UsableMethodes.isPaire(data,i,true)){
+                bit = 1;
+            }
+            if  (bit != data[i][0]){
+                
+                compteurErreurLine ++;
+                if (compteurErreurLine < 0){
+                    erreurLine = i;
+                }
+                else{
+                    i = size;
                 }
             }
-            // Si le nombre de 1 est paire :
-            if (compteurColonne%2 == 0) {
-                indicePariteColonne = 0; 
-            }
-            // Si le nombre de 1 est impaire :
-            else {
-                indicePariteColonne = 1;
-            }
-
-            // On reset le compteur  
-            compteurColonne = 0;
-
-            // Si le bit de parite est different de ce que nous venons de calculer
-            if (data[0][i] != indicePariteColonne ) {
-
-                System.out.println("Erreur trouvee a la colonne : " + (i + 1));
-
-                for (int k = 1 ; k < data.length; k++) {
-                    // On calcul le nombre de 1 (ligne)
-                    for (int l = 1; l < data[k].length; l++) {
-
-                        if (data[k][l] == 1) {
-                            compteurLigne++; 
-                        }
-                    }
-                    // Si le nombre de 1 est paire
-                    if (compteurLigne%2 == 0) {
-                        indicePariteLigne = 0; 
-                    }
-                    // Si le nombre de 1 est impaire
-                    else {
-                        indicePariteLigne = 1;
-                    }
-
-                    // On reset le compteur 
-                    compteurLigne = 0; 
-
-                    if (data[k][0] != indicePariteLigne) {
-                        System.out.println("Erreur trouvee a la ligne : " + (k + 1));
-                    } 
-                }  
-            }
+            bit = 0;
         }
-        return true;
+        bit = 0;
+        for (int i =0; i < size && compteurErreurLine < 2; i++){
+            if(UsableMethodes.isPaire(data,i,false)){
+                bit = 1;
+            }
+            if  (bit != data[0][i]){
+                compteurErreurColumn ++;
+                if (compteurErreurColumn < 0){
+                    erreurColumn = i;
+                }
+                else{
+                    i = size;
+                }
+            }
+            bit = 0;
+        }
+        
+        if (compteurErreurLine > 1){
+            isValide = false;
+        }
+        else if (compteurErreurLine == 1){
+            correction(erreurLine, erreurColumn, data);
+        }
+        return isValide;
     }
     
-    public int[][] correction (int line, int colone, int[][]data){
+    public static void correction (int line, int colone, int[][]data){
         if (data[colone][line] == 0){
             data[colone][line] = 1;
         }
         else{
             data[colone][line] = 0;
         }
-        return data;
     }
     
     /**
      * retourne les bit sur la ligne de fin de configuration
      * 
      */
-    public String configurationEnd(int[][] data,Config config){
+    public static String configurationEnd(int[][] data){
         StringBuffer bitBegin = new StringBuffer();       
         
-        for (int i = 17; i < config.getSize(); i++){
+        for (int i = 17; i < Constantes.actualSize; i++){
             bitBegin = bitBegin.append(data[i][1]);
         }
         return (bitBegin.toString());
     }
     
+    
     /* 
     * @pre - 
     * @post - 
     */
-    public Config getConfiguration(){
-        Config config = new Config (0,0,0);
+    public static Config getConfiguration(String configuration){
+        Config config = new Config (configuration);
         return config;
     }
 }

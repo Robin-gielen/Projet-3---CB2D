@@ -1,4 +1,4 @@
-
+import java.lang.IndexOutOfBoundsException;
 /**
  * Cette classe a pour fonction de generer des codes barres a partir de texte
  * 
@@ -30,22 +30,24 @@ public class Encodeur{
      * calcule la taille du tableau necessaire pour stocker les info (message plus configuration)
      * 
      */
-    public int tabSize(String finalChain){
-        int longueur = finalChain.length();
+    public int tabSize(String finalChain)throws IndexOutOfBoundsException{
+        int longueur = (finalChain.length()) + 16;
         int size = 0;
-        if (longueur <= 961){ // 32*32-32-31 = 961 bit dispo
+        if (longueur <= 960){ // 32*32-32-31 = 961 bit dispo
             size = 0;
         }
-        else if(longueur <= 3969){
+        else if(longueur <= 3968){
             size = 1;
         }
-        else if(longueur <= 16129){
+        else if(longueur <= 16128){
             size = 2;
         }
-        else{
+        else if(longueur <= 65024){
             size = 3;
         }
-        
+        else{
+            throw new IndexOutOfBoundsException();
+        }
         return size;
     }
     
@@ -70,7 +72,7 @@ public class Encodeur{
         
         for (int i = 1; i < tab.length; i++){
             for (int j = 1; j < tab.length; j++){
-                tab[j][i] = chaineBinaire.charAt(index); 
+                tab[i][j] = chaineBinaire.charAt(index); 
                 if (index >= chaineBinaire.length()){
                     j = tab.length; 
                     i = tab.length;
@@ -91,13 +93,13 @@ public class Encodeur{
         //ligne
         for (int i = 1; i < data.length; i++){
             if (UsableMethodes.isPaire(data,i,true)){
-                data[0][i] = 1;
+                data[i][0] = 1;
             }
         }
         //colone
         for (int i = 1; i < data.length; i++){
             if (UsableMethodes.isPaire(data,i,false)){
-                data[i][0] = 1;
+                data[0][i] = 1;
             }
         }
 
@@ -107,13 +109,12 @@ public class Encodeur{
         return data;
     }
     
-    
     /**
      * @pre - 
      * @post renvoie la configuration du code-barre
      */ 
-    public Config getConfiguration(int size){
-        Config config = new Config (size,0,0);
+    public Config getConfiguration(int size,int type, int compression){
+        Config config = new Config (size,type,compression);
         return config;
     }
 }

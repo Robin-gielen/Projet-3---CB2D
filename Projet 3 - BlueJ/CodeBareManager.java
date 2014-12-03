@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import barcode2d.*;
-
 // Le copier-coller : 
 import java.awt.datatransfer.*;
 import java.awt.*;
@@ -8,6 +7,7 @@ import java.io.*;
 
 // Le lien : 
 import java.net.*;
+
 
 /**
  * 
@@ -50,43 +50,42 @@ public class CodeBareManager
             } catch(Exception e){
                 System.out.println (" Erreur : " + e.getMessage()); 
             }
-
-            BarCode2DData codeBarre = new BarCode2DData();
-            loadBarCode2D(Constantes.pathToImageFile);
-            codeBarre = getBarcodeData();
-
-            // Feature #1 : Copier le message du code barre a deux dimensions dans le presse-papier
-
-            System.out.println("Souhaitez-vous copier ce message dans le presse papier ?"); 
-
-            try {
-                Scanner copie = new Scanner (System.in); 
-                boolean copier = copie.nextBoolean(); 
-            } catch (Exception e) {
+            
+            BarCode2DReader read = new BarCode2DReader();
+            
+            try{
+                read.loadBarCode2D(Constantes.pathToImageFile,256,256);
+            }
+            catch(IOException e){
                 System.out.println (" Erreur : " + e.getMessage()); 
             }
-
-            if (choix == true) {
-                StringSelection test = new StringSelection(/*message*/);
-                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(test, null);
-                System.out.println("Le message a ete copie dans le presse papier");
+            
+            BarCode2DData bar = read.getBarCodeData();
+            Config config = new Config (UsableMethodes.configurationBits(bar));
+            Constantes.actualSize = ((config.getSize() + 1) * 32);
+            Constantes.actualType = config.getDataType();
+            Constantes.actualCompression = config.getCompressionMode();
+            String texte = "";
+            try{
+                texte = Decodeur.decode(UsableMethodes.usableTab(bar,Constantes.actualSize));
             }
-
-            // Feature #2 : Traduire le message encoder dans le code barre 2D
-
-            System.out.println("Voulez-vous traduire ce message via Google translate ? (true/false)");
-            boolean traduire = false; 
-
-            try {
-                Scanner traduction = new Scanner(System.in); 
-                traduire = traduction.nextBoolean(); 
-            }catch (Exception e) {
-                System.out.println("Erreur : " + e.getMessage()); 
+            catch(DecodingException e){
+                System.out.println (" Erreur : " + e.getMessage()); 
             }
-
-            if (traduire == true) {
-                traduction(/*message*/); 
+            
+            if(Constantes.actualType == 2){
+                URI uri = URI.create(texte);
+                try{
+                    Desktop.getDesktop().browse(uri);
+                }
+                catch(Exception e){
+                    System.out.println (" Erreur : " + e.getMessage()); 
+                }
             }
+            else{
+                System.out.println(texte);
+            }
+            
         }
         // Generer un code 2D :
         else if (Constantes.choixModeGeneral == 2){
@@ -104,90 +103,6 @@ public class CodeBareManager
         }
     }
 
-    public static void traduction (String msg) throws IOException{
-
-        System.out.println();
-        System.out.println("Veuillez entrer la langue de convertion : ");
-        System.out.println(" \t 1) Anglais - Francais"); 
-        System.out.println(" \t 2) Neerlandais - Francais"); 
-        System.out.println(" \t 3) Detection automatique de la langue"); 
-
-        int langue = 0; 
-
-        try {
-            Scanner SelectionLangue = new Scanner(System.in); 
-            langue = SelectionLangue.nextInt(); 
-        }catch (Exception e) {
-            System.out.println("Erreur : " + e.getMessage()); 
-        }
-
-        System.out.println(); 
-        String url = "";
-
-        if (langue == 1) {
-            url = "https://translate.google.fr/#en/fr/";
-        }
-        else if (langue == 2){
-            url = "https://translate.google.fr/#nl/fr/";
-        }
-        else {
-            url = "https://translate.google.fr/#auto/fr/";
-        }
-
-        StringBuffer adresse = new StringBuffer(url); 
-
-        // La methode replaceAll("<char>/<String>","<char>/<String>") ne prend pas en charge les caracteres speciaux !
-		// Une adresse URL ne peut contenir des caracteres speciaux
-		
-        for (int i = 0; i < msg.length();i++) {
-            // Les references des caracteres speciaux chez Google :    
-            
-            if (msg.charAt(i) == ' ') {
-                adresse.append("%20"); 
-            }
-            else if (msg.charAt(i) == '*') {
-                adresse.append("%2A"); 
-            }
-            else if (msg.charAt(i) == '+') {
-                adresse.append("%2B"); 
-            }
-            else if (msg.charAt(i) == ',') {
-                adresse.append("%2C");
-            }
-            else if (msg.charAt(i) == ':') {
-                adresse.append("%3A");
-            }  
-            else if (msg.charAt(i) == ';') {
-                adresse.append("%3B");
-            }   
-            else if (msg.charAt(i) == '<') {
-                adresse.append("%3C");
-            }   
-            else if (msg.charAt(i) == '=') {
-                adresse.append("%3D");
-            }   
-            else if (msg.charAt(i) == '>') {
-                adresse.append("%3E");
-            }   
-            else if (msg.charAt(i) == '?') {
-                adresse.append("%3F");
-            }
-            else if (msg.charAt(i) == '#') {
-                adresse.append("%3G");
-            }
-            else {
-                adresse.append(msg.charAt(i)); 
-            }
-        }
-
-        System.out.println("Votre message : " + msg);
-        System.out.println(); 
-        System.out.println("Adresse " + adresse.toString());
-        System.out.println(); 
-
-        URI lien = URI.create(adresse.toString()); 
-        Desktop.getDesktop().browse(lien);
-
-    }
+    
 }
 

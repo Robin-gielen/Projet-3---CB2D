@@ -1,7 +1,6 @@
 
 
-public class Config implements Configuration 
-{
+public class Config{
     int size;
     int dataType;
     int compressionMode;
