@@ -4,8 +4,9 @@ import java.awt.*;
 import java.io.*;
 import javax.imageio.*;
 
-/**
- * Cett
+/* 
+ * Cette class comporte la methode main, elle permet de gerer les interactions entre les utilisateurs et le programme
+ * Elle fait appel aux methodes disponibles pour le projet
  * 
  * @author : Julien Banken, Robin Gielen, Jeremy Gossiaux  
  * @version : 2/12/2014
@@ -58,7 +59,7 @@ public class CodeBareManager{
             try{
                 // Appel du constructeur Image : Creation d'un nouveau fichier (constante)
                 Image img = ImageIO.read(new File(Constantes.pathToImageFile));
-                // On assigne la hauteur et la largeur de l'image au variable
+                // On assigne la hauteur et la largeur de l'image aux variables
                 width = img.getWidth(null);
                 height = img.getHeight(null);
             }
@@ -82,14 +83,25 @@ public class CodeBareManager{
             Constantes.actualType = config.getDataType();
             Constantes.actualCompression = config.getCompressionMode();
             String texte = "";
+            
             try{
                 texte = Decodeur.decode(UsableMethodes.usableTab(bar,Constantes.actualSize));
             }
             catch(DecodingException e){
                 System.out.println (" Erreur : " + e.getMessage()); 
             }
-            // Affiche le texte contenu dans le code barre.
+            // Affiche le texte contenu dans le code barre
+            System.out.println();
+            System.out.println("Le message : " + texte);
             System.out.println(texte);
+
+            try {
+                Traduction.traduction(texte);
+            }
+            catch (IOException e) {
+                System.out.println(e.getMessage()); 
+            }
+
         }
         // Generer un code 2D :
         else if (Constantes.choixModeGeneral == 2){
@@ -186,7 +198,7 @@ public class CodeBareManager{
             }
             catch(Exception e){
                 System.out.println(" Erreur : " + e.getMessage()); 
-            }            
+            } 
         }
     }   
 }
